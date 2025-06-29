@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FI.AtividadeEntrevista.BLL
 {
@@ -15,10 +12,7 @@ namespace FI.AtividadeEntrevista.BLL
         public long Incluir(DML.Cliente cliente)
         {
             DAL.DaoCliente cli = new DAL.DaoCliente();
-
-            if (VerificarExistencia(cliente.CPF))
-                throw new InvalidOperationException("Já existe um fornecedor com este documento informado.");
-
+            ValidarCpfCliente(cliente);
             return cli.Incluir(cliente);
         }
 
@@ -29,6 +23,7 @@ namespace FI.AtividadeEntrevista.BLL
         public void Alterar(DML.Cliente cliente)
         {
             DAL.DaoCliente cli = new DAL.DaoCliente();
+            ValidarCpfCliente(cliente);
             cli.Alterar(cliente);
         }
 
@@ -77,10 +72,19 @@ namespace FI.AtividadeEntrevista.BLL
         /// </summary>
         /// <param name="CPF"></param>
         /// <returns></returns>
-        public bool VerificarExistencia(string CPF)
+        public bool VerificarExistencia(string CPF, long? id = null)
         {
             DAL.DaoCliente cli = new DAL.DaoCliente();
-            return cli.VerificarExistencia(CPF);
+            return cli.VerificarExistencia(CPF, id);
+        }
+
+        private void ValidarCpfCliente(DML.Cliente cliente)
+        {
+            if (!CPFValidacao.Validar(cliente.CPF))
+                throw new InvalidOperationException("CPF inválido. Por favor, verifique e informe um CPF válido.");
+
+            if (VerificarExistencia(cliente.CPF, cliente.Id))
+                throw new InvalidOperationException("Já existe um cliente com este CPF informado.");
         }
     }
 }

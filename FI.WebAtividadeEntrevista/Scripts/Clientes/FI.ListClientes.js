@@ -25,6 +25,12 @@ $(document).ready(function () {
                     display: function (data) {
                         return '<button onclick="window.location.href=\'' + urlAlteracao + '/' + data.record.Id + '\'" class="btn btn-primary btn-sm">Alterar</button>';
                     }
+                },
+                Excluir: {
+                    title: '',
+                    display: function (data) {
+                        return '<button class="btn btn-danger btn-sm" onclick="excluirCliente(' + data.record.Id + ')"> <i class="fa fa-trash"></i> Excluir</button>';
+                    }
                 }
             }
         });
@@ -33,3 +39,19 @@ $(document).ready(function () {
     if (document.getElementById("gridClientes"))
         $('#gridClientes').jtable('load');
 })
+
+function excluirCliente(id) {
+    if (confirm('Confirma exclusão?')) {
+        $.post(urlClienteExcluir, { id: id })
+            .done(function (response) {
+                if (response.Result === 'OK') {
+                    $('#gridClientes').jtable('load');
+                } else {
+                    alert('Erro: ' + response.Message);
+                }
+            })
+            .fail(function () {
+                alert('Erro ao excluir cliente');
+            });
+    }
+}
