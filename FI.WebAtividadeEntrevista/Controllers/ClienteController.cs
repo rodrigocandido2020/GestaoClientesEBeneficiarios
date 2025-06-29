@@ -3,7 +3,6 @@ using WebAtividadeEntrevista.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using FI.AtividadeEntrevista.DML;
 
@@ -25,22 +24,21 @@ namespace WebAtividadeEntrevista.Controllers
         [HttpPost]
         public JsonResult Incluir(ClienteModel model)
         {
-            BoCliente bo = new BoCliente();
-            
-            if (!this.ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                List<string> erros = (from item in ModelState.Values
-                                      from error in item.Errors
-                                      select error.ErrorMessage).ToList();
+                var erros = ModelState.Values
+                                       .SelectMany(v => v.Errors)
+                                       .Select(e => e.ErrorMessage)
+                                       .ToList();
 
                 Response.StatusCode = 400;
                 return Json(string.Join(Environment.NewLine, erros));
             }
-            else
+
+            try
             {
-                
-                model.Id = bo.Incluir(new Cliente()
-                {                    
+                var cliente = new Cliente
+                {
                     CEP = model.CEP,
                     Cidade = model.Cidade,
                     Email = model.Email,
@@ -50,31 +48,44 @@ namespace WebAtividadeEntrevista.Controllers
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
                     Telefone = model.Telefone,
-                    CPF = model.CPF,
-                });
+                    CPF = model.CPF
+                };
 
-           
+                BoCliente bo = new BoCliente();
+                model.Id = bo.Incluir(cliente);
+
                 return Json("Cadastro efetuado com sucesso");
             }
+            catch (InvalidOperationException ex)
+            {
+                Response.StatusCode = 400;
+                return Json(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 500;
+                return Json("Erro inesperado: " + ex.Message);
+            }
         }
+
 
         [HttpPost]
         public JsonResult Alterar(ClienteModel model)
         {
-            BoCliente bo = new BoCliente();
-       
-            if (!this.ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                List<string> erros = (from item in ModelState.Values
-                                      from error in item.Errors
-                                      select error.ErrorMessage).ToList();
+                var erros = ModelState.Values
+                                       .SelectMany(v => v.Errors)
+                                       .Select(e => e.ErrorMessage)
+                                       .ToList();
 
                 Response.StatusCode = 400;
                 return Json(string.Join(Environment.NewLine, erros));
             }
-            else
+
+            try
             {
-                bo.Alterar(new Cliente()
+                var cliente = new Cliente
                 {
                     Id = model.Id,
                     CEP = model.CEP,
@@ -86,12 +97,26 @@ namespace WebAtividadeEntrevista.Controllers
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
                     Telefone = model.Telefone,
-                    CPF = model.CPF,
-                });
-                               
+                    CPF = model.CPF
+                };
+
+                BoCliente bo = new BoCliente();
+                bo.Alterar(cliente);
+
                 return Json("Cadastro alterado com sucesso");
             }
+            catch (InvalidOperationException ex)
+            {
+                Response.StatusCode = 400;
+                return Json(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 500;
+                return Json("Erro inesperado: " + ex.Message);
+            }
         }
+
 
         [HttpGet]
         public ActionResult Alterar(long id)
@@ -122,6 +147,25 @@ namespace WebAtividadeEntrevista.Controllers
 
             return View(model);
         }
+
+        [HttpPost]
+        public JsonResult Excluir(long id)
+        {
+            try
+            {
+                BoCliente bo = new BoCliente();
+                bo.Excluir(id);
+
+                return Json(new { Result = "OK", Message = "Cadastro excluído com sucesso" });
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 500;
+                return Json(new { Result = "ERROR", Message = "Erro ao excluir cliente: " + ex.Message });
+            }
+        }
+
+
 
         [HttpPost]
         public JsonResult ClienteList(int jtStartIndex = 0, int jtPageSize = 0, string jtSorting = null)
