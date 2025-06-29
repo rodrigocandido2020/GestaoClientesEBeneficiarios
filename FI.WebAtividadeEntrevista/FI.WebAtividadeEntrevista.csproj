@@ -44,9 +44,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-    <ItemGroup>
-      <RoslynFiles Include="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\roslyn\**\*.*" />
-    </ItemGroup>
+  <ItemGroup>
+    <RoslynFiles Include="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\roslyn\**\*.*" />
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />

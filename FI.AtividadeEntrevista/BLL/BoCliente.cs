@@ -15,6 +15,10 @@ namespace FI.AtividadeEntrevista.BLL
         public long Incluir(DML.Cliente cliente)
         {
             DAL.DaoCliente cli = new DAL.DaoCliente();
+
+            if (VerificarExistencia(cliente.CPF))
+                throw new InvalidOperationException("Já existe um fornecedor com este documento informado.");
+
             return cli.Incluir(cliente);
         }
 

@@ -56,4 +56,7 @@ nunit-*.xml
 =======
 # Visual Studio config folder
 .vs/
+
+# Arquivos de pacotes e dependências do NuGet (pasta)
+packages/
 >>>>>>> 8218646 (iniciar repository)
