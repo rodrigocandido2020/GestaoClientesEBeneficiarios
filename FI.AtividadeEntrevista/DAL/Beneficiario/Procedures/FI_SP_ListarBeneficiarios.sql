@@ -1,0 +1,8 @@
+﻿CREATE PROCEDURE FI_SP_ListarBeneficiarios
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT Id, Nome, CPF, IdCliente
+    FROM BENEFICIARIOS
+END
