@@ -24,16 +24,18 @@ namespace FI.AtividadeEntrevista.DAL
             return ret;
         }
 
-        public List<Beneficiario> Consultar()
+        public List<Beneficiario> Consultar(long idCliente)
         {
             List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();
-            
+            parametros.Add(new System.Data.SqlClient.SqlParameter("@IdCliente", idCliente));
+
             DataSet ds = Consultar("FI_SP_ListarBeneficiarios", parametros);
 
             List<DML.Beneficiario> cli = Converter(ds);
 
             return cli;
         }
+
 
         public void Alterar(Beneficiario beneficiario)
         {

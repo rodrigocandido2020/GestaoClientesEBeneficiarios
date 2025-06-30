@@ -38,12 +38,12 @@ namespace WebAtividadeEntrevista.Controllers
         }
 
         [HttpPost]
-        public JsonResult Listar()
+        public JsonResult Listar(long idCliente)
         {
             try
             {
                 BoBeneficiario bo = new BoBeneficiario();
-                var beneficiarios = bo.Listar();
+                var beneficiarios = bo.Listar(idCliente);
 
                 return Json(new { Result = "OK", Records = beneficiarios });
             }
@@ -52,6 +52,7 @@ namespace WebAtividadeEntrevista.Controllers
                 return Json(new { Result = "ERROR", Message = ex.Message });
             }
         }
+
 
 
         [HttpPost]

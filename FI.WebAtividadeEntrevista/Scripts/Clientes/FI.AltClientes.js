@@ -114,7 +114,7 @@ function ModalDialog(titulo, texto) {
 
 
 function abrirModalBeneficiarios() {
-    var idCliente = $('#inputIdCliente').val();
+    var idCliente = $('#Id').val();
     if (!idCliente) {
         alert("ID do cliente não está definido.");
         return;

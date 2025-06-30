@@ -27,11 +27,12 @@ namespace FI.AtividadeEntrevista.BLL
             ben.Excluir(id);
         }
 
-        public List<Beneficiario> Listar()
+        public List<Beneficiario> Listar(long idCliente)
         {
             DaoBeneficiario dao = new DaoBeneficiario();
-            return dao.Consultar();
+            return dao.Consultar(idCliente);
         }
+
 
 
         public bool VerificarExistencia(string CPF, long? id = null)
