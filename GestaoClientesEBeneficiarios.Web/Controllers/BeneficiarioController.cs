@@ -1,10 +1,10 @@
 ﻿using GestaoClientesEBeneficiarios.Domain.BLL;
 using GestaoClientesEBeneficiarios.Domain.DML;
+using GestaoClientesEBeneficiarios.Web.Models;
 using System;
 using System.Web.Mvc;
-using WebAtividadeEntrevista.Models;
 
-namespace WebAtividadeEntrevista.Controllers
+namespace GestaoClientesEBeneficiarios.Web.Controllers
 {
     public class BeneficiarioController : Controller
     {

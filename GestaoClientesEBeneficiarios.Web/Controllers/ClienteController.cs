@@ -1,12 +1,12 @@
-﻿using WebAtividadeEntrevista.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using GestaoClientesEBeneficiarios.Domain.DML;
 using GestaoClientesEBeneficiarios.Domain.BLL;
+using GestaoClientesEBeneficiarios.Web.Models;
 
-namespace WebAtividadeEntrevista.Controllers
+namespace GestaoClientesEBeneficiarios.Web.Controllers
 {
     public class ClienteController : Controller
     {

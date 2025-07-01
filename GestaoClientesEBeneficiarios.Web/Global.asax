@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="FI.WebAtividadeEntrevista.MvcApplication" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="GestaoClientesEBeneficiarios.Web.MvcApplication" Language="C#" %>
