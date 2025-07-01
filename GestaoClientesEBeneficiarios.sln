@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34616.47
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaoClientesEBeneficiarios.Web", "FI.WebAtividadeEntrevista\GestaoClientesEBeneficiarios.Web.csproj", "{EDA04BC2-EFC2-487F-8F40-A95C652F6A15}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaoClientesEBeneficiarios.Web", "GestaoClientesEBeneficiarios.Web\GestaoClientesEBeneficiarios.Web.csproj", "{EDA04BC2-EFC2-487F-8F40-A95C652F6A15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaoClientesEBeneficiarios.Domain", "FI.AtividadeEntrevista\GestaoClientesEBeneficiarios.Domain.csproj", "{2B795BB7-A890-48FA-8F70-EF89F2E318D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaoClientesEBeneficiarios.Domain", "GestaoClientesEBeneficiarios.Domain\GestaoClientesEBeneficiarios.Domain.csproj", "{2B795BB7-A890-48FA-8F70-EF89F2E318D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

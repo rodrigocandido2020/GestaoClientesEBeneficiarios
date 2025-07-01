@@ -1,0 +1,12 @@
+﻿CREATE PROCEDURE FI_SP_VerificaCliente
+    @CPF NVARCHAR(14),
+    @Id INT = NULL
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT Id, Nome, CPF
+    FROM CLIENTES
+    WHERE CPF = @CPF
+      AND (@Id IS NULL OR Id <> @Id)
+END
