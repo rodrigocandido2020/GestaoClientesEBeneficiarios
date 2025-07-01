@@ -1,4 +1,4 @@
-﻿namespace FI.AtividadeEntrevista.DML
+﻿namespace GestaoClientesEBeneficiarios.Domain.DML
 {
     public class Beneficiario
     {

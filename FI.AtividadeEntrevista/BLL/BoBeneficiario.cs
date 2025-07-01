@@ -1,13 +1,13 @@
-﻿using FI.AtividadeEntrevista.DML;
-using FI.AtividadeEntrevista.DAL;
+﻿using GestaoClientesEBeneficiarios.Domain.DAL;
+using GestaoClientesEBeneficiarios.Domain.DML;
 using System;
 using System.Collections.Generic;
 
-namespace FI.AtividadeEntrevista.BLL
+namespace GestaoClientesEBeneficiarios.Domain.BLL
 {
     public class BoBeneficiario
     {
-        public long Incluir(DML.Beneficiario beneficiario)
+        public long Incluir(Beneficiario beneficiario)
         {
             DaoBeneficiario ben = new DaoBeneficiario();
             ValidarCpfCliente(beneficiario);
@@ -43,7 +43,7 @@ namespace FI.AtividadeEntrevista.BLL
 
         private void ValidarCpfCliente(DML.Beneficiario beneficiario)
         {
-            if (!CPFValidacao.Validar(beneficiario.CPF))
+            if (!BoValidacaoCpf.Validar(beneficiario.CPF))
                 throw new InvalidOperationException("CPF inválido. Por favor, verifique e informe um CPF válido.");
 
             if (VerificarExistencia(beneficiario.CPF, beneficiario.Id))

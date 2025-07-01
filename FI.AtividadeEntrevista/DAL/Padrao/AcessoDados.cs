@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace FI.AtividadeEntrevista.DAL
+namespace GestaoClientesEBeneficiarios.Domain.DAL
 {
     public class AcessoDados
     {

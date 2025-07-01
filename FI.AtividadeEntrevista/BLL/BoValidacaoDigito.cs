@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace FI.AtividadeEntrevista.BLL
+namespace GestaoClientesEBeneficiarios.Domain.BLL
 {
-    public class DigitoVerificador
+    public class BoValidacaoDigito
     {
         private string _numero;
         private const int Modulo = 11;
@@ -10,12 +10,12 @@ namespace FI.AtividadeEntrevista.BLL
         private readonly IDictionary<int, string> _substituicoes = new Dictionary<int, string>();
         private bool _complementarDoModulo = true;
 
-        public DigitoVerificador(string numero)
+        public BoValidacaoDigito(string numero)
         {
             _numero = numero;
         }
 
-        public DigitoVerificador ComMultiplicadoresDeAte(int primeiroMultiplicador, int ultimoMultiplicador)
+        public BoValidacaoDigito ComMultiplicadoresDeAte(int primeiroMultiplicador, int ultimoMultiplicador)
         {
             _multiplicadores.Clear();
             for (var i = primeiroMultiplicador; i <= ultimoMultiplicador; i++)
@@ -24,7 +24,7 @@ namespace FI.AtividadeEntrevista.BLL
             return this;
         }
 
-        public DigitoVerificador Substituindo(string substituto, params int[] digitos)
+        public BoValidacaoDigito Substituindo(string substituto, params int[] digitos)
         {
             foreach (var i in digitos)
             {

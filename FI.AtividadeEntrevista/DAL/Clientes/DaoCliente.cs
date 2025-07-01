@@ -1,9 +1,9 @@
-﻿using FI.AtividadeEntrevista.DML;
+﻿using GestaoClientesEBeneficiarios.Domain.DML;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
-namespace FI.AtividadeEntrevista.DAL
+namespace GestaoClientesEBeneficiarios.Domain.DAL
 {
     /// <summary>
     /// Classe de acesso a dados de Cliente

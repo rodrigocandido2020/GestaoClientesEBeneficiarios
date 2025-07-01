@@ -367,9 +367,9 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FI.AtividadeEntrevista\FI.AtividadeEntrevista.csproj">
+    <ProjectReference Include="..\FI.AtividadeEntrevista\GestaoClientesEBeneficiarios.Domain.csproj">
       <Project>{2b795bb7-a890-48fa-8f70-ef89f2e318d8}</Project>
-      <Name>FI.AtividadeEntrevista</Name>
+      <Name>GestaoClientesEBeneficiarios.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

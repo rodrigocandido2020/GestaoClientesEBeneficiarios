@@ -1,5 +1,5 @@
-﻿using FI.AtividadeEntrevista.BLL;
-using FI.AtividadeEntrevista.DML;
+﻿using GestaoClientesEBeneficiarios.Domain.BLL;
+using GestaoClientesEBeneficiarios.Domain.DML;
 using System;
 using System.Web.Mvc;
 using WebAtividadeEntrevista.Models;

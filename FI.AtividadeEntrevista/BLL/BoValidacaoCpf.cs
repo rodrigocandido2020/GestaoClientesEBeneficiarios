@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 
-namespace FI.AtividadeEntrevista.BLL
+namespace GestaoClientesEBeneficiarios.Domain.BLL
 {
-    public class CPFValidacao
+    public class BoValidacaoCpf
     {
         public const int TamanhoCpf = 11;
 
@@ -40,7 +40,7 @@ namespace FI.AtividadeEntrevista.BLL
         private static bool TemDigitosValidos(string valor)
         {
             var number = valor.Substring(0, TamanhoCpf - 2);
-            var digitoVerificador = new DigitoVerificador(number)
+            var digitoVerificador = new BoValidacaoDigito(number)
                 .ComMultiplicadoresDeAte(2, 11)
                 .Substituindo("0", 10, 11);
             var firstDigit = digitoVerificador.CalculaDigito();
