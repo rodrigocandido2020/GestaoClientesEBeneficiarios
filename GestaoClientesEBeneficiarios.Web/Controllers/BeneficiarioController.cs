@@ -1,8 +1,8 @@
-﻿using GestaoClientesEBeneficiarios.Domain.BLL;
-using GestaoClientesEBeneficiarios.Domain.DML;
-using GestaoClientesEBeneficiarios.Web.Models;
-using System;
+﻿using System;
 using System.Web.Mvc;
+using GestaoClientesEBeneficiarios.Domain.BLL;
+using GestaoClientesEBeneficiarios.Domain.Entidades;
+using GestaoClientesEBeneficiarios.Web.Models;
 
 namespace GestaoClientesEBeneficiarios.Web.Controllers
 {

@@ -1,5 +1,5 @@
 ﻿using GestaoClientesEBeneficiarios.Domain.DAL;
-using GestaoClientesEBeneficiarios.Domain.DML;
+using GestaoClientesEBeneficiarios.Domain.Entidades;
 using System;
 using System.Collections.Generic;
 
@@ -23,7 +23,7 @@ namespace GestaoClientesEBeneficiarios.Domain.BLL
 
         public void Excluir(long id)
         {
-            DAL.DaoBeneficiario ben = new DaoBeneficiario();
+            DaoBeneficiario ben = new DaoBeneficiario();
             ben.Excluir(id);
         }
 
@@ -33,15 +33,13 @@ namespace GestaoClientesEBeneficiarios.Domain.BLL
             return dao.Consultar(idCliente);
         }
 
-
-
         public bool VerificarExistencia(string CPF, long? id = null)
         {
-            DAL.DaoBeneficiario ben = new DAL.DaoBeneficiario();
+            DaoBeneficiario ben = new DaoBeneficiario();
             return ben.VerificarExistencia(CPF, id);
         }
 
-        private void ValidarCpfCliente(DML.Beneficiario beneficiario)
+        private void ValidarCpfCliente(Beneficiario beneficiario)
         {
             if (!BoValidacaoCpf.Validar(beneficiario.CPF))
                 throw new InvalidOperationException("CPF inválido. Por favor, verifique e informe um CPF válido.");

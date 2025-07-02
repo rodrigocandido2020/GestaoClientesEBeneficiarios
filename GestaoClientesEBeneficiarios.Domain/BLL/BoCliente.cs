@@ -1,5 +1,5 @@
 ﻿using GestaoClientesEBeneficiarios.Domain.DAL;
-using GestaoClientesEBeneficiarios.Domain.DML;
+using GestaoClientesEBeneficiarios.Domain.Entidades;
 using System;
 using System.Collections.Generic;
 

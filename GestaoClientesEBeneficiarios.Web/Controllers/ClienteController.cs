@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using GestaoClientesEBeneficiarios.Domain.DML;
 using GestaoClientesEBeneficiarios.Domain.BLL;
+using GestaoClientesEBeneficiarios.Domain.Entidades;
 using GestaoClientesEBeneficiarios.Web.Models;
 
 namespace GestaoClientesEBeneficiarios.Web.Controllers

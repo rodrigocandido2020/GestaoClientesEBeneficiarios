@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-
 namespace GestaoClientesEBeneficiarios.Web.Models
 {
     public class ClienteModel

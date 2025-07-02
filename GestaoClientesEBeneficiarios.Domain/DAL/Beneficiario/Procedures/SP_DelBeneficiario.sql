@@ -1,0 +1,6 @@
+﻿CREATE PROC SP_DelBeneficiario
+    @Id BIGINT
+AS
+BEGIN
+    DELETE BENEFICIARIOS WHERE Id = @Id
+END
