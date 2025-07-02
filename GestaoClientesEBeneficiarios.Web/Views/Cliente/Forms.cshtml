@@ -41,8 +41,8 @@
                 <label for="Estado">Estado:</label>
                 <select required="required" id="Estado" class="form-control" name="Estado">
                     <option value="">Selecione</option>
-                    <option value="SP" @(Model?.Estado == "SP" ? "selected" : "")>São Paulo</option>
-                    <option value="PE" @(Model?.Estado == "PE" ? "selected" : "")>Pernambuco</option>
+                    <option value="SP" @(Model != null && Model.Estado == "SP" ? "selected" : "")>São Paulo</option>
+                    <option value="PE" @(Model != null && Model.Estado == "PE" ? "selected" : "")>Pernambuco</option>
                 </select>
             </div>
         </div>
