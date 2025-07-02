@@ -7,36 +7,36 @@ namespace GestaoClientesEBeneficiarios.Domain.BLL
 {
     public class BoBeneficiario
     {
+        private readonly DaoBeneficiario _daoBeneficiario;
+        public BoBeneficiario(DaoBeneficiario daoBeneficiario)
+        {
+            _daoBeneficiario = daoBeneficiario;
+        }
         public long Incluir(Beneficiario beneficiario)
         {
-            DaoBeneficiario ben = new DaoBeneficiario();
             ValidarCpfCliente(beneficiario);
-            return ben.Incluir(beneficiario);
+            return _daoBeneficiario.Incluir(beneficiario);
         }
 
         public void Alterar(Beneficiario beneficiario)
         {
-            DaoBeneficiario ben = new DaoBeneficiario();
             ValidarCpfCliente(beneficiario);
-            ben.Alterar(beneficiario);
+            _daoBeneficiario.Alterar(beneficiario);
         }
 
         public void Excluir(long id)
         {
-            DaoBeneficiario ben = new DaoBeneficiario();
-            ben.Excluir(id);
+            _daoBeneficiario.Excluir(id);
         }
 
         public List<Beneficiario> Listar(long idCliente)
         {
-            DaoBeneficiario dao = new DaoBeneficiario();
-            return dao.Consultar(idCliente);
+            return _daoBeneficiario.Consultar(idCliente);
         }
 
         public bool VerificarExistencia(string CPF, long? id = null)
         {
-            DaoBeneficiario ben = new DaoBeneficiario();
-            return ben.VerificarExistencia(CPF, id);
+            return _daoBeneficiario.VerificarExistencia(CPF, id);
         }
 
         private void ValidarCpfCliente(Beneficiario beneficiario)
