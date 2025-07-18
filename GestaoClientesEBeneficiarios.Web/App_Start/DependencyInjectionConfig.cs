@@ -26,13 +26,11 @@ namespace GestaoClientesEBeneficiarios.Web
 
         private static void InitializeContainer(Container container)
         {
-            // Registra as classes com seus estilos de vida
+            container.Register<DaoCliente>(Lifestyle.Scoped);
+            container.Register<BoCliente>(Lifestyle.Scoped);
+
             container.Register<DaoBeneficiario>(Lifestyle.Scoped);
             container.Register<BoBeneficiario>(Lifestyle.Scoped);
-            //container.Register<DaoBeneficiario>(Lifestyle.Scoped);
-
-            // Opcional: registre via interface se houver
-            // container.Register<IDaoBeneficiario, DaoBeneficiario>(Lifestyle.Scoped);
         }
     }
 }

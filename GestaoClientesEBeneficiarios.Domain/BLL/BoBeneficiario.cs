@@ -8,10 +8,12 @@ namespace GestaoClientesEBeneficiarios.Domain.BLL
     public class BoBeneficiario
     {
         private readonly DaoBeneficiario _daoBeneficiario;
+
         public BoBeneficiario(DaoBeneficiario daoBeneficiario)
         {
             _daoBeneficiario = daoBeneficiario;
         }
+
         public long Incluir(Beneficiario beneficiario)
         {
             ValidarCpfCliente(beneficiario);

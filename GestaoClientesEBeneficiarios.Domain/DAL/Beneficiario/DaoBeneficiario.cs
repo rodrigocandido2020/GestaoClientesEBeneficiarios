@@ -16,7 +16,7 @@ namespace GestaoClientesEBeneficiarios.Domain.DAL
             parametros.Add(new SqlParameter("CPF", beneficiario.CPF));
             parametros.Add(new SqlParameter("IdCliente", beneficiario.IdCliente));
 
-            DataSet ds = base.Consultar("SP_IncBeneficiario", parametros);
+            DataSet ds = Consultar("SP_IncBeneficiario", parametros);
             long ret = 0;
             if (ds.Tables[0].Rows.Count > 0)
                 long.TryParse(ds.Tables[0].Rows[0][0].ToString(), out ret);
@@ -66,7 +66,7 @@ namespace GestaoClientesEBeneficiarios.Domain.DAL
             parametros.Add(new SqlParameter("CPF", CPF));
             parametros.Add(new SqlParameter("Id", id));
 
-            DataSet ds = base.Consultar("SP_VerificaBeneficiarios", parametros);
+            DataSet ds = Consultar("SP_VerificaBeneficiarios", parametros);
 
             return ds.Tables[0].Rows.Count > 0;
         }

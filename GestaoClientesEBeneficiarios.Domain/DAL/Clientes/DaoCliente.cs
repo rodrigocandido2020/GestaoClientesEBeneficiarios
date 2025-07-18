@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace GestaoClientesEBeneficiarios.Domain.DAL
 {
-    internal class DaoCliente : AcessoDados
+    public class DaoCliente : AcessoDados
     {
         internal long Incluir(Cliente cliente)
         {
