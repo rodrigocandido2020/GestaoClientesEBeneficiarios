@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using GestaoClientesEBeneficiarios.Domain.BLL;
@@ -10,6 +9,11 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
 {
     public class ClienteController : Controller
     {
+        private readonly BoCliente _boCliente;
+        public ClienteController(BoCliente boCliente)
+        {
+            _boCliente = boCliente;
+        }
         public ActionResult Index()
         {
             return View();
@@ -51,8 +55,7 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
                     CPF = model.CPF
                 };
 
-                BoCliente bo = new BoCliente();
-                model.Id = bo.Incluir(cliente);
+                model.Id = _boCliente.Incluir(cliente);
 
                 return Json("Cadastro efetuado com sucesso");
             }
@@ -100,8 +103,7 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
                     CPF = model.CPF
                 };
 
-                BoCliente bo = new BoCliente();
-                bo.Alterar(cliente);
+                _boCliente.Alterar(cliente);
 
                 return Json("Cadastro alterado com sucesso");
             }
@@ -121,29 +123,22 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
         [HttpGet]
         public ActionResult Alterar(long id)
         {
-            BoCliente bo = new BoCliente();
-            Cliente cliente = bo.Consultar(id);
-            Models.ClienteModel model = null;
+            var cliente = _boCliente.Consultar(id);
 
-            if (cliente != null)
+            var model = cliente is null ? null : new ClienteModel
             {
-                model = new ClienteModel()
-                {
-                    Id = cliente.Id,
-                    CEP = cliente.CEP,
-                    Cidade = cliente.Cidade,
-                    Email = cliente.Email,
-                    Estado = cliente.Estado,
-                    Logradouro = cliente.Logradouro,
-                    Nacionalidade = cliente.Nacionalidade,
-                    Nome = cliente.Nome,
-                    Sobrenome = cliente.Sobrenome,
-                    Telefone = cliente.Telefone,
-                    CPF = cliente.CPF,
-                };
-
-            
-            }
+                Id = cliente.Id,
+                CEP = cliente.CEP,
+                Cidade = cliente.Cidade,
+                Email = cliente.Email,
+                Estado = cliente.Estado,
+                Logradouro = cliente.Logradouro,
+                Nacionalidade = cliente.Nacionalidade,
+                Nome = cliente.Nome,
+                Sobrenome = cliente.Sobrenome,
+                Telefone = cliente.Telefone,
+                CPF = cliente.CPF,
+            };
 
             return View(model);
         }
@@ -153,8 +148,7 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
         {
             try
             {
-                BoCliente bo = new BoCliente();
-                bo.Excluir(id);
+                _boCliente.Excluir(id);
 
                 return Json(new { Result = "OK", Message = "Cadastro excluído com sucesso" });
             }
@@ -183,7 +177,7 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
                 if (array.Length > 1)
                     crescente = array[1];
 
-                List<Cliente> clientes = new BoCliente().Pesquisa(jtStartIndex, jtPageSize, campo, crescente.Equals("ASC", StringComparison.InvariantCultureIgnoreCase), out qtd);
+                var clientes = _boCliente.Pesquisa(jtStartIndex, jtPageSize, campo, crescente.Equals("ASC", StringComparison.InvariantCultureIgnoreCase), out qtd);
 
                 //Return result to jTable
                 return Json(new { Result = "OK", Records = clientes, TotalRecordCount = qtd });

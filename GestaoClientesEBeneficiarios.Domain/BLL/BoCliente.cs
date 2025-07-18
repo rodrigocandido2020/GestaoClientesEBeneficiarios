@@ -7,48 +7,47 @@ namespace GestaoClientesEBeneficiarios.Domain.BLL
 {
     public class BoCliente
     {
+        private readonly DaoCliente _daoCliente;
+
+        public BoCliente(DaoCliente daoCliente)
+        {
+            _daoCliente = daoCliente;
+        }
         public long Incluir(Cliente cliente)
         {
-            DaoCliente cli = new DaoCliente();
             ValidarCpfCliente(cliente);
-            return cli.Incluir(cliente);
+            return _daoCliente.Incluir(cliente);
         }
 
         public void Alterar(Cliente cliente)
         {
-            DaoCliente cli = new DaoCliente();
             ValidarCpfCliente(cliente);
-            cli.Alterar(cliente);
+            _daoCliente.Alterar(cliente);
         }
 
         public Cliente Consultar(long id)
         {
-            DaoCliente cli = new DaoCliente();
-            return cli.Consultar(id);
+            return _daoCliente.Consultar(id);
         }
 
         public void Excluir(long id)
         {
-            DaoCliente cli = new DaoCliente();
-            cli.Excluir(id);
+            _daoCliente.Excluir(id);
         }
 
         public List<Cliente> Listar()
         {
-            DaoCliente cli = new DaoCliente();
-            return cli.Listar();
+            return _daoCliente.Listar();
         }
 
         public List<Cliente> Pesquisa(int iniciarEm, int quantidade, string campoOrdenacao, bool crescente, out int qtd)
         {
-            DaoCliente cli = new DaoCliente();
-            return cli.Pesquisa(iniciarEm,  quantidade, campoOrdenacao, crescente, out qtd);
+            return _daoCliente.Pesquisa(iniciarEm,  quantidade, campoOrdenacao, crescente, out qtd);
         }
 
         public bool VerificarExistencia(string CPF, long? id = null)
         {
-            DaoCliente cli = new DaoCliente();
-            return cli.VerificarExistencia(CPF, id);
+            return _daoCliente.VerificarExistencia(CPF, id);
         }
 
         private void ValidarCpfCliente(Cliente cliente)

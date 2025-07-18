@@ -8,6 +8,13 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
 {
     public class BeneficiarioController : Controller
     {
+        private readonly BoBeneficiario _boBeneficiario;
+
+        public BeneficiarioController(BoBeneficiario boBeneficiario)
+        {
+            _boBeneficiario = boBeneficiario;
+        }
+
         [HttpPost]
         public JsonResult Incluir(BeneficiarioModel model)
         {
@@ -17,7 +24,6 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
                 return Json("Dados inválidos");
             }
 
-            BoBeneficiario bo = new BoBeneficiario();
             var beneficiario = new Beneficiario
             {
                 Nome = model.Nome,
@@ -27,7 +33,7 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
 
             try
             {
-                model.Id = bo.Incluir(beneficiario);
+                model.Id = _boBeneficiario.Incluir(beneficiario);
                 return Json("Beneficiário incluído com sucesso!");
             }
             catch (InvalidOperationException ex)
@@ -42,8 +48,7 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
         {
             try
             {
-                BoBeneficiario bo = new BoBeneficiario();
-                var beneficiarios = bo.Listar(idCliente);
+                var beneficiarios = _boBeneficiario.Listar(idCliente);
 
                 return Json(new { Result = "OK", Records = beneficiarios });
             }
@@ -64,8 +69,7 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
                 return Json("Dados inválidos");
             }
 
-            BoBeneficiario bo = new BoBeneficiario();
-            bo.Alterar(new Beneficiario
+            _boBeneficiario.Alterar(new Beneficiario
             {
                 Id = model.Id,
                 Nome = model.Nome,
@@ -79,8 +83,7 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
         [HttpPost]
         public JsonResult Excluir(long id)
         {
-            BoBeneficiario bo = new BoBeneficiario();
-            bo.Excluir(id);
+            _boBeneficiario.Excluir(id);
             return Json("Beneficiário excluído com sucesso");
         }
     }
