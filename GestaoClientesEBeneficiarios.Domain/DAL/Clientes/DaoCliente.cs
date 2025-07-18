@@ -8,72 +8,83 @@ namespace GestaoClientesEBeneficiarios.Domain.DAL
 {
     public class DaoCliente : AcessoDados
     {
+        private const int TabelaPrincipal = 0;
+        private const int LinhaPrincipal = 0;
+        private const int ColunaId = 0;
+        private const int QuantidadeMinimaDeLinhas = 1;
+
         internal long Incluir(Cliente cliente)
         {
-            List<SqlParameter> parametros = new List<SqlParameter>();
+            var parametros = new List<SqlParameter>
+            {
+                new SqlParameter("Nome", cliente.Nome),
+                new SqlParameter("Sobrenome", cliente.Sobrenome),
+                new SqlParameter("Nacionalidade", cliente.Nacionalidade),
+                new SqlParameter("CEP", cliente.CEP),
+                new SqlParameter("Estado", cliente.Estado),
+                new SqlParameter("Cidade", cliente.Cidade),
+                new SqlParameter("Logradouro", cliente.Logradouro),
+                new SqlParameter("Email", cliente.Email),
+                new SqlParameter("Telefone", cliente.Telefone),
+                new SqlParameter("CPF", cliente.CPF)
+            };
 
-            parametros.Add(new SqlParameter("Nome", cliente.Nome));
-            parametros.Add(new SqlParameter("Sobrenome", cliente.Sobrenome));
-            parametros.Add(new SqlParameter("Nacionalidade", cliente.Nacionalidade));
-            parametros.Add(new SqlParameter("CEP", cliente.CEP));
-            parametros.Add(new SqlParameter("Estado", cliente.Estado));
-            parametros.Add(new SqlParameter("Cidade", cliente.Cidade));
-            parametros.Add(new SqlParameter("Logradouro", cliente.Logradouro));
-            parametros.Add(new SqlParameter("Email", cliente.Email));
-            parametros.Add(new SqlParameter("Telefone", cliente.Telefone));
-            parametros.Add(new SqlParameter("CPF", cliente.CPF));
-
-            DataSet ds = base.Consultar("SP_IncCliente", parametros);
-            long ret = 0;
-            if (ds.Tables[0].Rows.Count > 0)
-                long.TryParse(ds.Tables[0].Rows[0][0].ToString(), out ret);
-            return ret;
+            var dataSet = Consultar("SP_IncCliente", parametros);
+            long idNulo = 0;
+            if (dataSet.Tables[TabelaPrincipal].Rows.Count >= QuantidadeMinimaDeLinhas)
+                long.TryParse(dataSet.Tables[TabelaPrincipal].Rows[LinhaPrincipal][ColunaId].ToString(), out idNulo);
+            return idNulo;
         }
 
         internal Cliente Consultar(long Id)
         {
-            List<SqlParameter> parametros = new List<SqlParameter>();
+            var parametros = new List<SqlParameter>
+            {
+                new SqlParameter("Id", Id)
+            };
 
-            parametros.Add(new SqlParameter("Id", Id));
+            var dataSet = Consultar("SP_ConsCliente", parametros);
 
-            DataSet ds = base.Consultar("SP_ConsCliente", parametros);
-            List<Cliente> cli = Converter(ds);
+            var clientes = Converter(dataSet);
 
-            return cli.FirstOrDefault();
+            return clientes.FirstOrDefault();
         }
 
         internal bool VerificarExistencia(string CPF, long? id)
         {
-            List<SqlParameter> parametros = new List<SqlParameter>();
+            var parametros = new List<SqlParameter>
+            {
+                new SqlParameter("CPF", CPF),
+                new SqlParameter("Id", id)
+            };
 
-            parametros.Add(new SqlParameter("CPF", CPF));
-            parametros.Add(new SqlParameter("Id", id));
+            var dataSet = Consultar("SP_VerificaCliente", parametros);
 
-            DataSet ds = base.Consultar("SP_VerificaCliente", parametros);
-
-            return ds.Tables[0].Rows.Count > 0;
+            return dataSet.Tables[TabelaPrincipal].Rows.Count >= QuantidadeMinimaDeLinhas;
         }
 
         internal List<Cliente> Pesquisa(int iniciarEm, int quantidade, string campoOrdenacao, bool crescente, out int qtd)
         {
-            List<SqlParameter> parametros = new List<SqlParameter>();
+            var parametros = new List<SqlParameter>
+            {
+                new SqlParameter("iniciarEm", iniciarEm),
+                new SqlParameter("quantidade", quantidade),
+                new SqlParameter("campoOrdenacao", campoOrdenacao),
+                new SqlParameter("crescente", crescente)
+            };
 
-            parametros.Add(new SqlParameter("iniciarEm", iniciarEm));
-            parametros.Add(new SqlParameter("quantidade", quantidade));
-            parametros.Add(new SqlParameter("campoOrdenacao", campoOrdenacao));
-            parametros.Add(new SqlParameter("crescente", crescente));
+            var dataSet = Consultar("SP_PesqCliente", parametros);
 
-            DataSet ds = base.Consultar("SP_PesqCliente", parametros);
-            List<Cliente> cli = Converter(ds);
+            var clientes = Converter(dataSet);
 
             int iQtd = 0;
 
-            if (ds.Tables.Count > 1 && ds.Tables[1].Rows.Count > 0)
-                int.TryParse(ds.Tables[1].Rows[0][0].ToString(), out iQtd);
+            if (dataSet.Tables.Count > 1 && dataSet.Tables[1].Rows.Count > 0)
+                int.TryParse(dataSet.Tables[1].Rows[0][0].ToString(), out iQtd);
 
             qtd = iQtd;
 
-            return cli;
+            return clientes;
         }
 
         internal List<Cliente> Listar()
