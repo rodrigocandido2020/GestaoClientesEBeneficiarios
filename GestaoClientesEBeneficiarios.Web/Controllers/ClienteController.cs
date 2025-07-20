@@ -1,6 +1,8 @@
-﻿using System;
+﻿  using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using AutoMapper;
 using GestaoClientesEBeneficiarios.Domain.BLL;
 using GestaoClientesEBeneficiarios.Domain.Entidades;
 using GestaoClientesEBeneficiarios.Web.Models;
@@ -9,14 +11,60 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
 {
     public class ClienteController : Controller
     {
+        private const int INDICE_CAMPO_ORDENACAO = 0;
+        private const int INDICE_DIRECAO_ORDENACAO = 1;
+
+        private const int INDICE_INICIO_PAGINA_PADRAO = 0;
+        private const int TAMANHO_PAGINA_PADRAO = 10;
+
+        private const string ORDENACAO_PADRAO = "Nome ASC";
+        private const string CAMPO_ORDENACAO_PADRAO = "Nome";
+        private const string DIRECAO_CRESCENTE = "ASC";
+
         private readonly BoCliente _boCliente;
-        public ClienteController(BoCliente boCliente)
+        private readonly IMapper _mapper;
+        public ClienteController(BoCliente boCliente, IMapper mapper)
         {
             _boCliente = boCliente;
+            _mapper = mapper;
+
         }
+
+        [Route("lista-de-clientes")]
+        [HttpGet]
         public ActionResult Index()
         {
             return View();
+        }
+
+        [Route("lista-clientes-json")]
+        [HttpGet]
+        public JsonResult ListaClientes(
+            int indiceInicioPagina = INDICE_INICIO_PAGINA_PADRAO,
+            int tamanhoPagina = TAMANHO_PAGINA_PADRAO,
+            string ordenacao = ORDENACAO_PADRAO)
+        {
+            int totalRegistros;
+
+            string[] partesOrdenacao = (ordenacao ?? "").Split(' ', (char)StringSplitOptions.RemoveEmptyEntries);
+
+            string campoOrdenacao = partesOrdenacao.Length > INDICE_CAMPO_ORDENACAO
+                ? partesOrdenacao[INDICE_CAMPO_ORDENACAO]
+                : CAMPO_ORDENACAO_PADRAO;
+
+            bool crescente = partesOrdenacao.Length > INDICE_DIRECAO_ORDENACAO
+                && partesOrdenacao[INDICE_DIRECAO_ORDENACAO].Equals(DIRECAO_CRESCENTE, StringComparison.InvariantCultureIgnoreCase);
+
+            var clientes = _boCliente.Pesquisa(indiceInicioPagina, tamanhoPagina, campoOrdenacao, crescente, out totalRegistros);
+
+            var clientesViewModel = _mapper.Map<IEnumerable<ClienteViewModel>>(clientes);
+
+            return Json(new
+            {
+                Result = "OK",
+                Records = clientesViewModel,
+                TotalRecordCount = totalRegistros
+            }, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -26,7 +74,7 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult Incluir(ClienteModel model)
+        public JsonResult Incluir(ClienteViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -73,7 +121,7 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
 
 
         [HttpPost]
-        public JsonResult Alterar(ClienteModel model)
+        public JsonResult Alterar(ClienteViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -125,7 +173,7 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
         {
             var cliente = _boCliente.Consultar(id);
 
-            var model = cliente is null ? null : new ClienteModel
+            var model = cliente is null ? null : new ClienteViewModel
             {
                 Id = cliente.Id,
                 CEP = cliente.CEP,
@@ -187,5 +235,7 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
                 return Json(new { Result = "ERROR", Message = ex.Message });
             }
         }
+
+
     }
 }

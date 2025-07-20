@@ -2,7 +2,7 @@
 
 namespace GestaoClientesEBeneficiarios.Web.Models
 {
-    public class ClienteModel
+    public class ClienteViewModel
     {
         public long Id { get; set; }
 
