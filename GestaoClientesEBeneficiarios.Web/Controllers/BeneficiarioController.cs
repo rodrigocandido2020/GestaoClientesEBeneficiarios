@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using GestaoClientesEBeneficiarios.Domain.BLL;
 using GestaoClientesEBeneficiarios.Domain.Entidades;
-using GestaoClientesEBeneficiarios.Web.Models;
+using GestaoClientesEBeneficiarios.Web.ViewModels;
 
 namespace GestaoClientesEBeneficiarios.Web.Controllers
 {

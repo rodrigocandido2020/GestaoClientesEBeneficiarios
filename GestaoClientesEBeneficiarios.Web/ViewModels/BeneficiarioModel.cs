@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GestaoClientesEBeneficiarios.Web.Models 
+namespace GestaoClientesEBeneficiarios.Web.ViewModels
 {
     public class BeneficiarioModel
     {

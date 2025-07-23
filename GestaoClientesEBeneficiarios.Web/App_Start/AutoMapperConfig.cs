@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using GestaoClientesEBeneficiarios.Domain.Entidades;
-using GestaoClientesEBeneficiarios.Web.Models;
+using GestaoClientesEBeneficiarios.Web.ViewModels;
 
 namespace GestaoClientesEBeneficiarios.Web
 {

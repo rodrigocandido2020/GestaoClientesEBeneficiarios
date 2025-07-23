@@ -5,7 +5,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using GestaoClientesEBeneficiarios.Domain.BLL;
 using GestaoClientesEBeneficiarios.Domain.Entidades;
-using GestaoClientesEBeneficiarios.Web.Models;
+using GestaoClientesEBeneficiarios.Web.ViewModels;
 
 namespace GestaoClientesEBeneficiarios.Web.Controllers
 {
@@ -30,14 +30,12 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
 
         }
 
-        [Route("lista-de-clientes")]
         [HttpGet]
         public ActionResult Index()
         {
             return View();
         }
 
-        [Route("lista-clientes-json")]
         [HttpGet]
         public JsonResult ListaClientes(
             int indiceInicioPagina = INDICE_INICIO_PAGINA_PADRAO,
@@ -209,32 +207,32 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
 
 
 
-        [HttpPost]
-        public JsonResult ClienteList(int jtStartIndex = 0, int jtPageSize = 0, string jtSorting = null)
-        {
-            try
-            {
-                int qtd = 0;
-                string campo = string.Empty;
-                string crescente = string.Empty;
-                string[] array = jtSorting.Split(' ');
+        //[HttpPost]
+        //public JsonResult ClienteList(int jtStartIndex = 0, int jtPageSize = 0, string jtSorting = null)
+        //{
+        //    try
+        //    {
+        //        int qtd = 0;
+        //        string campo = string.Empty;
+        //        string crescente = string.Empty;
+        //        string[] array = jtSorting.Split(' ');
 
-                if (array.Length > 0)
-                    campo = array[0];
+        //        if (array.Length > 0)
+        //            campo = array[0];
 
-                if (array.Length > 1)
-                    crescente = array[1];
+        //        if (array.Length > 1)
+        //            crescente = array[1];
 
-                var clientes = _boCliente.Pesquisa(jtStartIndex, jtPageSize, campo, crescente.Equals("ASC", StringComparison.InvariantCultureIgnoreCase), out qtd);
+        //        var clientes = _boCliente.Pesquisa(jtStartIndex, jtPageSize, campo, crescente.Equals("ASC", StringComparison.InvariantCultureIgnoreCase), out qtd);
 
-                //Return result to jTable
-                return Json(new { Result = "OK", Records = clientes, TotalRecordCount = qtd });
-            }
-            catch (Exception ex)
-            {
-                return Json(new { Result = "ERROR", Message = ex.Message });
-            }
-        }
+        //        //Return result to jTable
+        //        return Json(new { Result = "OK", Records = clientes, TotalRecordCount = qtd });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { Result = "ERROR", Message = ex.Message });
+        //    }
+        //}
 
 
     }

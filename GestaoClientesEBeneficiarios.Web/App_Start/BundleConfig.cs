@@ -28,8 +28,8 @@ namespace GestaoClientesEBeneficiarios.Web
             bundles.Add(new ScriptBundle("~/bundles/clientes").Include(
                       "~/Scripts/Clientes/FI.Clientes.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/listClientes").Include(
-                      "~/Scripts/Clientes/FI.ListClientes.js"));
+            bundles.Add(new ScriptBundle("~/bundles/ListaClientes").Include(
+                      "~/Scripts/Clientes/ListaClientes.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/altClientes").Include(
                       "~/Scripts/Clientes/FI.AltClientes.js"));
