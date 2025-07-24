@@ -79,8 +79,8 @@ namespace GestaoClientesEBeneficiarios.Domain.DAL
 
             int iQtd = 0;
 
-            if (dataSet.Tables.Count > 1 && dataSet.Tables[1].Rows.Count > 0)
-                int.TryParse(dataSet.Tables[1].Rows[0][0].ToString(), out iQtd);
+            if (dataSet.Tables.Count > QuantidadeMinimaDeLinhas && dataSet.Tables[QuantidadeMinimaDeLinhas].Rows.Count >= QuantidadeMinimaDeLinhas)
+                int.TryParse(dataSet.Tables[QuantidadeMinimaDeLinhas].Rows[LinhaPrincipal][ColunaId].ToString(), out iQtd);
 
             qtd = iQtd;
 
@@ -89,50 +89,53 @@ namespace GestaoClientesEBeneficiarios.Domain.DAL
 
         internal List<Cliente> Listar()
         {
-            List<SqlParameter> parametros = new List<SqlParameter>();
+            var parametros = new List<SqlParameter>
+            {
+                new SqlParameter("Id", ColunaId)
+            };
 
-            parametros.Add(new SqlParameter("Id", 0));
+            var dataSet = Consultar("SP_ConsCliente", parametros);
+            var clientes = Converter(dataSet);
 
-            DataSet ds = base.Consultar("SP_ConsCliente", parametros);
-            List<Cliente> cli = Converter(ds);
-
-            return cli;
+            return clientes;
         }
 
         internal void Alterar(Cliente cliente)
         {
-            List<SqlParameter> parametros = new List<SqlParameter>();
+            var parametros = new List<SqlParameter>
+            {
+                new SqlParameter("Nome", cliente.Nome),
+                new SqlParameter("Sobrenome", cliente.Sobrenome),
+                new SqlParameter("Nacionalidade", cliente.Nacionalidade),
+                new SqlParameter("CEP", cliente.CEP),
+                new SqlParameter("Estado", cliente.Estado),
+                new SqlParameter("Cidade", cliente.Cidade),
+                new SqlParameter("Logradouro", cliente.Logradouro),
+                new SqlParameter("Email", cliente.Email),
+                new SqlParameter("Telefone", cliente.Telefone),
+                new SqlParameter("CPF", cliente.CPF),
+                new SqlParameter("ID", cliente.Id)
+            };
 
-            parametros.Add(new SqlParameter("Nome", cliente.Nome));
-            parametros.Add(new SqlParameter("Sobrenome", cliente.Sobrenome));
-            parametros.Add(new SqlParameter("Nacionalidade", cliente.Nacionalidade));
-            parametros.Add(new SqlParameter("CEP", cliente.CEP));
-            parametros.Add(new SqlParameter("Estado", cliente.Estado));
-            parametros.Add(new SqlParameter("Cidade", cliente.Cidade));
-            parametros.Add(new SqlParameter("Logradouro", cliente.Logradouro));
-            parametros.Add(new SqlParameter("Email", cliente.Email));
-            parametros.Add(new SqlParameter("Telefone", cliente.Telefone));
-            parametros.Add(new SqlParameter("CPF", cliente.CPF));
-            parametros.Add(new SqlParameter("ID", cliente.Id));
-
-            base.Executar("SP_AltCliente", parametros);
+            Executar("SP_AltCliente", parametros);
         }
 
         internal void Excluir(long Id)
         {
-            List<SqlParameter> parametros = new List<SqlParameter>();
+            var parametros = new List<SqlParameter>
+            {
+                new SqlParameter("Id", Id)
+            };
 
-            parametros.Add(new SqlParameter("Id", Id));
-
-            base.Executar("SP_DelCliente", parametros);
+            Executar("SP_DelCliente", parametros);
         }
 
         private List<Cliente> Converter(DataSet ds)
         {
             List<Cliente> lista = new List<Cliente>();
-            if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            if (ds != null && ds.Tables != null && ds.Tables.Count >= QuantidadeMinimaDeLinhas && ds.Tables[TabelaPrincipal].Rows.Count >= QuantidadeMinimaDeLinhas)
             {
-                foreach (DataRow row in ds.Tables[0].Rows)
+                foreach (DataRow row in ds.Tables[TabelaPrincipal].Rows)
                 {
                     Cliente cli = new Cliente();
                     cli.Id = row.Field<long>("Id");

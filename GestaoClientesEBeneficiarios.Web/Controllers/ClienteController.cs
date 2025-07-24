@@ -11,6 +11,8 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
 {
     public class ClienteController : Controller
     {
+        const int VALOR_PADRAO = 0;
+        const int QUANTIDADE_MINIMA = 1;
         private readonly BoCliente _boCliente;
         private readonly IMapper _mapper;
 
@@ -28,20 +30,20 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult ListaClientes(int deslocamento = 0, int tamanhoDaPagina = 0, string odernacao = null)
+        public JsonResult ListaClientes(int jtStartIndex = VALOR_PADRAO, int jtPageSize = VALOR_PADRAO, string jtSorting = null)
         {
-            var quantidade = 0;
+            var quantidadeTotalUsuario = VALOR_PADRAO;
             var campo = string.Empty;
             var crescente = string.Empty;
-            string[] array = odernacao.Split(' ');
+            string[] array = jtSorting.Split(' ');
 
-            if (array.Length > 0)
-                campo = array[0];
+            if (array.Length > VALOR_PADRAO)
+                campo = array[VALOR_PADRAO];
 
-            if (array.Length > 1)
-                crescente = array[1];
+            if (array.Length > QUANTIDADE_MINIMA)
+                crescente = array[QUANTIDADE_MINIMA];
 
-            var clientes = _boCliente.Pesquisa(deslocamento, tamanhoDaPagina, campo, crescente.Equals("ASC", StringComparison.InvariantCultureIgnoreCase), out quantidade);
+            var clientes = _boCliente.Pesquisa(jtStartIndex, jtPageSize, campo, crescente.Equals("ASC", StringComparison.InvariantCultureIgnoreCase), out quantidadeTotalUsuario);
 
 
             var clientesViewModel = _mapper.Map<IEnumerable<ClienteViewModel>>(clientes);
@@ -50,7 +52,7 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
             {
                 Result = "OK",
                 Records = clientesViewModel,
-                TotalRecordCount = quantidade
+                TotalRecordCount = quantidadeTotalUsuario
             }, JsonRequestBehavior.AllowGet);
         }
 
@@ -193,36 +195,5 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
                 return Json(new { Result = "ERROR", Message = "Erro ao excluir cliente: " + ex.Message });
             }
         }
-
-
-
-        //[HttpPost]
-        //public JsonResult ClienteList(int jtStartIndex = 0, int jtPageSize = 0, string jtSorting = null)
-        //{
-        //    try
-        //    {
-        //        int qtd = 0;
-        //        string campo = string.Empty;
-        //        string crescente = string.Empty;
-        //        string[] array = jtSorting.Split(' ');
-
-        //        if (array.Length > 0)
-        //            campo = array[0];
-
-        //        if (array.Length > 1)
-        //            crescente = array[1];
-
-        //        var clientes = _boCliente.Pesquisa(jtStartIndex, jtPageSize, campo, crescente.Equals("ASC", StringComparison.InvariantCultureIgnoreCase), out qtd);
-
-        //        //Return result to jTable
-        //        return Json(new { Result = "OK", Records = clientes, TotalRecordCount = qtd });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Json(new { Result = "ERROR", Message = ex.Message });
-        //    }
-        //}
-
-
     }
 }
