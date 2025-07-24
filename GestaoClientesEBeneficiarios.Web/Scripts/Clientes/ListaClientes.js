@@ -4,7 +4,6 @@ $(document).ready(function () {
 
     if ($gridClientes.length) {
         $gridClientes.jtable({
-            title: 'Clientes',
             paging: true,
             pageSize: 5,
             sorting: true,
@@ -30,12 +29,14 @@ $(document).ready(function () {
                 },
                 Alterar: {
                     title: '',
+                    sorting: false,
                     display: function (data) {
                         return '<button onclick="window.location.href=\'/cliente/editar/' + data.record.Id + '\'" class="btn btn-primary btn-sm">Alterar</button>';
                     }
                 },
                 Excluir: {
                     title: '',
+                    sorting: false,
                     display: function (data) {
                         return '<button class="btn btn-danger btn-sm" onclick="excluirCliente(' + data.record.Id + ')"><i class="fa fa-trash"></i> Excluir</button>';
                     }

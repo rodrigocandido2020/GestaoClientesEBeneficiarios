@@ -4,7 +4,11 @@
 
 <h2>@Html.Raw(ViewBag.Title)</h2>
 
-@Html.ActionLink("Novo Cliente", "Incluir", "Cliente", new { }, new { @class = "btn btn-sm btn-primary float-end mb-3" })
+<link rel="stylesheet" type="text/css" href="../Content/ListaCliente.css" />
+
+<div class="clearfix">
+    @Html.ActionLink("Novo Cliente", "Incluir", "Cliente", new { }, new { @class = "btn btn-sm btn-primary pull-right"})
+</div>
 
 @Html.Partial("_ListaClientes")
 

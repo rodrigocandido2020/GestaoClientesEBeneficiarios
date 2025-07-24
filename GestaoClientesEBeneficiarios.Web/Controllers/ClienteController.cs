@@ -11,18 +11,9 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
 {
     public class ClienteController : Controller
     {
-        private const int INDICE_CAMPO_ORDENACAO = 0;
-        private const int INDICE_DIRECAO_ORDENACAO = 1;
-
-        private const int INDICE_INICIO_PAGINA_PADRAO = 0;
-        private const int TAMANHO_PAGINA_PADRAO = 10;
-
-        private const string ORDENACAO_PADRAO = "Nome ASC";
-        private const string CAMPO_ORDENACAO_PADRAO = "Nome";
-        private const string DIRECAO_CRESCENTE = "ASC";
-
         private readonly BoCliente _boCliente;
         private readonly IMapper _mapper;
+
         public ClienteController(BoCliente boCliente, IMapper mapper)
         {
             _boCliente = boCliente;
@@ -37,23 +28,21 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult ListaClientes(
-            int indiceInicioPagina = INDICE_INICIO_PAGINA_PADRAO,
-            int tamanhoPagina = TAMANHO_PAGINA_PADRAO,
-            string ordenacao = ORDENACAO_PADRAO)
+        public JsonResult ListaClientes(int deslocamento = 0, int tamanhoDaPagina = 0, string odernacao = null)
         {
-            int totalRegistros;
+            var quantidade = 0;
+            var campo = string.Empty;
+            var crescente = string.Empty;
+            string[] array = odernacao.Split(' ');
 
-            string[] partesOrdenacao = (ordenacao ?? "").Split(' ', (char)StringSplitOptions.RemoveEmptyEntries);
+            if (array.Length > 0)
+                campo = array[0];
 
-            string campoOrdenacao = partesOrdenacao.Length > INDICE_CAMPO_ORDENACAO
-                ? partesOrdenacao[INDICE_CAMPO_ORDENACAO]
-                : CAMPO_ORDENACAO_PADRAO;
+            if (array.Length > 1)
+                crescente = array[1];
 
-            bool crescente = partesOrdenacao.Length > INDICE_DIRECAO_ORDENACAO
-                && partesOrdenacao[INDICE_DIRECAO_ORDENACAO].Equals(DIRECAO_CRESCENTE, StringComparison.InvariantCultureIgnoreCase);
+            var clientes = _boCliente.Pesquisa(deslocamento, tamanhoDaPagina, campo, crescente.Equals("ASC", StringComparison.InvariantCultureIgnoreCase), out quantidade);
 
-            var clientes = _boCliente.Pesquisa(indiceInicioPagina, tamanhoPagina, campoOrdenacao, crescente, out totalRegistros);
 
             var clientesViewModel = _mapper.Map<IEnumerable<ClienteViewModel>>(clientes);
 
@@ -61,7 +50,7 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
             {
                 Result = "OK",
                 Records = clientesViewModel,
-                TotalRecordCount = totalRegistros
+                TotalRecordCount = quantidade
             }, JsonRequestBehavior.AllowGet);
         }
 
