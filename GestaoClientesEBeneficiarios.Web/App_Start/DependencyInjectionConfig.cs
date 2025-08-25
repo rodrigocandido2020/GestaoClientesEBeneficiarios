@@ -5,6 +5,7 @@ using SimpleInjector.Integration.Web;
 using SimpleInjector.Integration.Web.Mvc;
 using System.Reflection;
 using System.Web.Mvc;
+using AutoMapper;
 
 namespace GestaoClientesEBeneficiarios.Web
 {
@@ -31,6 +32,8 @@ namespace GestaoClientesEBeneficiarios.Web
 
             container.Register<DaoBeneficiario>(Lifestyle.Scoped);
             container.Register<BoBeneficiario>(Lifestyle.Scoped);
+
+            container.RegisterSingleton(() => AutoMapperConfig.GetMapperConfiguration().CreateMapper(container.GetInstance));
         }
     }
 }

@@ -21,8 +21,8 @@ namespace GestaoClientesEBeneficiarios.Domain.DAL
 
         internal void Executar(string NomeProcedure, List<SqlParameter> parametros)
         {
-            SqlCommand comando = new SqlCommand();
-            SqlConnection conexao = new SqlConnection(stringDeConexao);
+            var comando = new SqlCommand();
+            var conexao = new SqlConnection(stringDeConexao);
             comando.Connection = conexao;
             comando.CommandType = CommandType.StoredProcedure;
             comando.CommandText = NomeProcedure;
@@ -42,8 +42,8 @@ namespace GestaoClientesEBeneficiarios.Domain.DAL
 
         internal DataSet Consultar(string NomeProcedure, List<SqlParameter> parametros)
         {
-            SqlCommand comando = new SqlCommand();
-            SqlConnection conexao = new SqlConnection(stringDeConexao);
+            var comando = new SqlCommand();
+            var conexao = new SqlConnection(stringDeConexao);
 
             comando.Connection = conexao;
             comando.CommandType = CommandType.StoredProcedure;
@@ -51,8 +51,8 @@ namespace GestaoClientesEBeneficiarios.Domain.DAL
             foreach (var item in parametros)
                 comando.Parameters.Add(item);
 
-            SqlDataAdapter adapter = new SqlDataAdapter(comando);
-            DataSet ds = new DataSet();
+            var adapter = new SqlDataAdapter(comando);
+            var ds = new DataSet();
             conexao.Open();
 
             try

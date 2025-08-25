@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GestaoClientesEBeneficiarios.Web.Models
+namespace GestaoClientesEBeneficiarios.Web.ViewModels
 {
-    public class ClienteModel
+    public class ClienteViewModel
     {
         public long Id { get; set; }
 

@@ -7,38 +7,45 @@ namespace GestaoClientesEBeneficiarios.Domain.DAL
 {
     public class DaoBeneficiario : AcessoDados
     {
-        public long Incluir(Beneficiario beneficiario)
+        private const int TabelaPrincipal = 0;
+        private const int LinhaPrincipal = 0;
+        private const int ColunaId = 0;
+        private const int QuantidadeMinimaDeLinhas = 1;
+
+        internal long Incluir(Beneficiario beneficiario)
         {
-            List<SqlParameter> parametros = new List<SqlParameter>();
+            var parametros = new List<SqlParameter>
+            {
+                new SqlParameter("Nome", beneficiario.Nome),
+                new SqlParameter("CPF", beneficiario.CPF),
+                new SqlParameter("IdCliente", beneficiario.IdCliente)
+            };
 
+            var dataSet = Consultar("SP_IncBeneficiario", parametros);
 
-            parametros.Add(new SqlParameter("Nome", beneficiario.Nome));
-            parametros.Add(new SqlParameter("CPF", beneficiario.CPF));
-            parametros.Add(new SqlParameter("IdCliente", beneficiario.IdCliente));
-
-            DataSet ds = Consultar("SP_IncBeneficiario", parametros);
-            long ret = 0;
-            if (ds.Tables[0].Rows.Count > 0)
-                long.TryParse(ds.Tables[0].Rows[0][0].ToString(), out ret);
-            return ret;
+            long idNulo = 0;
+            if (dataSet.Tables[TabelaPrincipal].Rows.Count >= QuantidadeMinimaDeLinhas)
+                long.TryParse(dataSet.Tables[TabelaPrincipal].Rows[LinhaPrincipal][ColunaId].ToString(), out idNulo);
+            return idNulo;
         }
 
-        public List<Beneficiario> Consultar(long idCliente)
+        internal List<Beneficiario> Consultar(long idCliente)
         {
-            List<SqlParameter> parametros = new List<SqlParameter>();
-            parametros.Add(new SqlParameter("@IdCliente", idCliente));
+            var parametros = new List<SqlParameter>
+            {
+                new SqlParameter("@IdCliente", idCliente)
+            };
 
-            DataSet ds = Consultar("SP_ListarBeneficiarios", parametros);
+            var dataSet = Consultar("SP_ListarBeneficiarios", parametros);
 
-            List<Beneficiario> cli = Converter(ds);
+            var beneficiarios = Converter(dataSet);
 
-            return cli;
+            return beneficiarios;
         }
 
-
-        public void Alterar(Beneficiario beneficiario)
+        internal void Alterar(Beneficiario beneficiario)
         {
-            List<SqlParameter> parametros = new List<SqlParameter>
+            var parametros = new List<SqlParameter>
             {
                 new SqlParameter("Id", beneficiario.Id),
                 new SqlParameter("Nome", beneficiario.Nome),
@@ -49,9 +56,9 @@ namespace GestaoClientesEBeneficiarios.Domain.DAL
             Executar("SP_AltBeneficiario", parametros);
         }
 
-        public void Excluir(long id)
+        internal void Excluir(long id)
         {
-            List<SqlParameter> parametros = new List<SqlParameter>
+            var parametros = new List<SqlParameter>
             {
                 new SqlParameter("Id", id)
             };
@@ -59,24 +66,25 @@ namespace GestaoClientesEBeneficiarios.Domain.DAL
             Executar("SP_DelBeneficiario", parametros);
         }
 
-        public bool VerificarExistencia(string CPF, long? id)
+        internal bool VerificarExistencia(string CPF, long? id)
         {
-            List<SqlParameter> parametros = new List<SqlParameter>();
+            List<SqlParameter> parametros = new List<SqlParameter> 
+            {
+                new SqlParameter("CPF", CPF),
+                new SqlParameter("Id", id)
+            };
 
-            parametros.Add(new SqlParameter("CPF", CPF));
-            parametros.Add(new SqlParameter("Id", id));
+            var dataSet = Consultar("SP_VerificaBeneficiarios", parametros);
 
-            DataSet ds = Consultar("SP_VerificaBeneficiarios", parametros);
-
-            return ds.Tables[0].Rows.Count > 0;
+            return dataSet.Tables[TabelaPrincipal].Rows.Count >= QuantidadeMinimaDeLinhas;
         }
 
-        private List<Beneficiario> Converter(DataSet ds)
+        private List<Beneficiario> Converter(DataSet dataSet)
         {
             List<Beneficiario> lista = new List<Beneficiario>();
-            if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            if (dataSet != null && dataSet.Tables != null && dataSet.Tables.Count >= QuantidadeMinimaDeLinhas && dataSet.Tables[TabelaPrincipal].Rows.Count >= QuantidadeMinimaDeLinhas)
             {
-                foreach (DataRow row in ds.Tables[0].Rows)
+                foreach (DataRow row in dataSet.Tables[TabelaPrincipal].Rows)
                 {
                     Beneficiario ben = new Beneficiario();
                     ben.Id = row.Field<long>("Id");

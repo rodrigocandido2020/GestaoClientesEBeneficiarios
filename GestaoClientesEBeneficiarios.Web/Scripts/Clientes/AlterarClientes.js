@@ -70,18 +70,17 @@ $(document).ready(function () {
                 CPF: cpf,
                 IdCliente: idCliente
             },
-            success: function (response) {
-                if (response.Result === "OK") {
-                    alert(response.Message);
-                    $('#inputNome').val('');
-                    $('#inputCPF').val('');
-                    abrirModalBeneficiarios(idCliente);
-                } else {
-                    alert(response.Message);
-                }
+            error:
+            function (r) {
+                if (r.status == 400)
+                    ModalDialog("Ocorreu um erro", r.responseJSON);
+                else if (r.status == 500)
+                    ModalDialog("Ocorreu um erro", "Ocorreu um erro interno no servidor.");
             },
-            error: function () {
-                alert("Erro ao salvar o beneficiário.");
+            success:
+            function (r) {
+                ModalDialog("Sucesso!", r)
+                abrirModalBeneficiarios();
             }
         });
 

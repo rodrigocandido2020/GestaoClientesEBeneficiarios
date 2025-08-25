@@ -1,16 +1,16 @@
 ﻿<form id="formCadastro" method="post">
     <div class="row">
-        <input type="hidden" id="Id" name="Id" value="@Model?.Id" />
+        <input type="hidden" id="Id" name="Id" value="@(Model != null ? Model.Id : "")" />
         <div class="col-md-6">
             <div class="form-group">
                 <label for="Nome">Nome:</label>
-                <input required="required" type="text" class="form-control" id="Nome" name="Nome" placeholder="Ex.: João" maxlength="50" value="@Model?.Nome" />
+                <input required="required" type="text" class="form-control" id="Nome" name="Nome" placeholder="Ex.: João" maxlength="50" value="@(Model != null ? Model.Nome : "")"  />
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label for="Sobrenome">Sobrenome:</label>
-                <input required="required" type="text" class="form-control" id="Sobrenome" name="Sobrenome" placeholder="Ex.: da Silva" maxlength="255" value="@Model?.Sobrenome" />
+                <input required="required" type="text" class="form-control" id="Sobrenome" name="Sobrenome" placeholder="Ex.: da Silva" maxlength="255" value="@(Model != null ? Model.Sobrenome : "")" />
             </div>
         </div>
     </div>
@@ -18,13 +18,13 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="CPF">CPF:</label>
-                <input required="required" type="text" class="form-control" id="CPF" name="CPF" placeholder="Ex.: 000.000.000-00" maxlength="255" value="@Model?.CPF" />
+                <input required="required" type="text" class="form-control" id="CPF" name="CPF" placeholder="Ex.: 000.000.000-00" maxlength="255" value="@(Model != null ? Model.CPF : "")" />
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label for="Nacionalidade">Nacionalidade:</label>
-                <input required="required" type="text" class="form-control" id="Nacionalidade" name="Nacionalidade" placeholder="Ex.: brasileira" maxlength="50" value="@Model?.Nacionalidade" />
+                <input required="required" type="text" class="form-control" id="Nacionalidade" name="Nacionalidade" placeholder="Ex.: brasileira" maxlength="50" value="@(Model != null ? Model.Nacionalidade: "")" />
             </div>
         </div>
     </div>
@@ -33,7 +33,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label for="CEP">CEP:</label>
-                <input required="required" type="text" class="form-control" id="CEP" name="CEP" placeholder="Ex.: 01011-100" maxlength="9" value="@Model?.CEP" />
+                <input required="required" type="text" class="form-control" id="CEP" name="CEP" placeholder="Ex.: 01011-100" maxlength="9" value="@(Model != null ? Model.CEP : "")" />
             </div>
         </div>
         <div class="col-md-4">
@@ -49,7 +49,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label for="Cidade">Cidade:</label>
-                <input required="required" type="text" class="form-control" id="Cidade" name="Cidade" maxlength="50" placeholder="Ex.: São Paulo" value="@Model?.Cidade" />
+                <input required="required" type="text" class="form-control" id="Cidade" name="Cidade" maxlength="50" placeholder="Ex.: São Paulo" value="@(Model != null ? Model.Cidade : "")" />
             </div>
         </div>
     </div>
@@ -58,7 +58,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label for="Logradouro">Logradouro:</label>
-                <input required="required" type="text" class="form-control" id="Logradouro" name="Logradouro" placeholder="Ex.: Rua Boa Vista 253" maxlength="500" value="@Model?.Logradouro" />
+                <input required="required" type="text" class="form-control" id="Logradouro" name="Logradouro" placeholder="Ex.: Rua Boa Vista 253" maxlength="500" value="@(Model != null ? Model.Logradouro : "")" />
             </div>
         </div>
     </div>
@@ -67,13 +67,13 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="Email">E-mail:</label>
-                <input required="required" type="text" class="form-control" id="Email" name="Email" placeholder="Ex.: email@email.com" maxlength="2079" value="@Model?.Email" />
+                <input required="required" type="text" class="form-control" id="Email" name="Email" placeholder="Ex.: email@email.com" maxlength="2079" value="@(Model != null ? Model.Email : "")" />
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label for="Telefone">Telefone:</label>
-                <input required="required" type="tel" class="form-control" id="Telefone" name="Telefone" placeholder="Ex.: (11) 2020-3030" maxlength="15" value="@Model?.Telefone" />
+                <input required="required" type="tel" class="form-control" id="Telefone" name="Telefone" placeholder="Ex.: (11) 2020-3030" maxlength="15" value="@(Model != null ? Model.Telefone : "")" />
             </div>
         </div>
     </div>
@@ -87,9 +87,16 @@
         </div>
     </div>
 
-    <button type="button" onclick="abrirModalBeneficiarios()" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalBeneficiarios">
-        Beneficiários
-    </button>
+    @if (Model != null && Model.Id > 0)
+    {
+        <button type="button" 
+                onclick="abrirModalBeneficiarios()" 
+                class="btn btn-sm btn-primary" 
+                data-toggle="modal" 
+                data-target="#modalBeneficiarios">
+            Beneficiários
+        </button>
+    }
 </form>
 
 <div class="modal fade" id="modalBeneficiarios" tabindex="-1" role="dialog" aria-labelledby="modalBeneficiariosLabel" aria-hidden="true">
@@ -104,7 +111,7 @@
 
             <div class="modal-body mb-3">
                 <div class="form-row mb-3">
-                    <input type="hidden" id="inputIdCliente" value="@Model?.Id" />
+                    <input type="hidden" id="inputIdCliente" value="@(Model != null ? Model.Id : "")" />
 
                     <input type="hidden" id="inputIdBeneficiario" />
 

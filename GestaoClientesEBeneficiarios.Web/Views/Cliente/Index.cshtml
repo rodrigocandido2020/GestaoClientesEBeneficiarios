@@ -1,15 +1,22 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Clientes";
 }
-@section scripts{
-<script>
-    var urlAlteracao = '@Url.Action("Alterar", "Cliente", new { area = "" })';
-    var urlClienteList = '@Url.Action("ClienteList", "Cliente", new { area = "" })';
-    var urlClienteExcluir = '@Url.Action("Excluir", "Cliente")';
-</script>
-    @Scripts.Render("~/bundles/listClientes")
-}
+
 <h2>@Html.Raw(ViewBag.Title)</h2>
-@Html.ActionLink("Novo Cliente", "Incluir", "Cliente", new { }, new { @class= "btn btn-sm btn-primary pull-right" })
-<table id="gridClientes" class="table"></table>
+
+<link rel="stylesheet" type="text/css" href="../Content/ListaCliente.css" />
+
+<div class="clearfix">
+    @Html.ActionLink("Novo Cliente", "Incluir", "Cliente", new { }, new { @class = "btn btn-sm btn-primary pull-right"})
+</div>
+
+@Html.Partial("_ListaClientes")
+
+@section scripts {
+    <script>
+        const urlClienteList = '@Url.Action("ListaClientes", "Cliente", new { area = "" })';
+        const urlClienteExcluir = '@Url.Action("Excluir", "Cliente")';
+    </script>
+
+    @Scripts.Render("~/bundles/ListaClientes")
+}

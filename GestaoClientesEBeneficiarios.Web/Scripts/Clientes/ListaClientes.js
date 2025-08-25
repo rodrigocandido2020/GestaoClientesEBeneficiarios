@@ -1,15 +1,22 @@
 ﻿
 $(document).ready(function () {
+    const $gridClientes = $('#gridClientes');
 
-    if (document.getElementById("gridClientes"))
-        $('#gridClientes').jtable({
-            title: 'Clientes',
-            paging: true, //Enable paging
-            pageSize: 5, //Set page size (default: 10)
-            sorting: true, //Enable sorting
-            defaultSorting: 'Nome ASC', //Set default sorting
+    if ($gridClientes.length) {
+        $gridClientes.jtable({
+            paging: true,
+            pageSize: 5,
+            sorting: true,
+            defaultSorting: 'Nome ASC',
             actions: {
-                listAction: urlClienteList,
+                listAction: function (postData, jtParams) {
+                    return $.ajax({
+                        url: urlClienteList,
+                        type: 'GET',
+                        dataType: 'json',
+                        data: jtParams
+                    });
+                }
             },
             fields: {
                 Nome: {
@@ -22,23 +29,24 @@ $(document).ready(function () {
                 },
                 Alterar: {
                     title: '',
+                    sorting: false,
                     display: function (data) {
-                        return '<button onclick="window.location.href=\'' + urlAlteracao + '/' + data.record.Id + '\'" class="btn btn-primary btn-sm">Alterar</button>';
+                        return '<button onclick="window.location.href=\'/cliente/alterar/' + data.record.Id + '\'" class="btn btn-primary btn-sm">Alterar</button>';
                     }
                 },
                 Excluir: {
                     title: '',
+                    sorting: false,
                     display: function (data) {
-                        return '<button class="btn btn-danger btn-sm" onclick="excluirCliente(' + data.record.Id + ')"> <i class="fa fa-trash"></i> Excluir</button>';
+                        return '<button class="btn btn-danger btn-sm" onclick="excluirCliente(' + data.record.Id + ')"><i class="fa fa-trash"></i> Excluir</button>';
                     }
                 }
             }
         });
 
-    //Load student list from server
-    if (document.getElementById("gridClientes"))
-        $('#gridClientes').jtable('load');
-})
+        $gridClientes.jtable('load');
+    }
+});
 
 function excluirCliente(id) {
     if (confirm('Confirma exclusão?')) {

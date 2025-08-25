@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
@@ -17,12 +17,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Início", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
-                    <li>@Html.ActionLink("Clientes", "Index", "Cliente", new { area = "" }, null)</li>                    
+                    <li>@Html.ActionLink("Clientes", "Index", "Cliente", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("Sobre", "Sobre", "Home", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("Contato", "Contato", "Home", new { area = "" }, null)</li>
                 </ul>
             </div>
         </div>
@@ -30,8 +31,17 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        <footer class="bg-light text-center text-lg-start mt-5 border-top py-3">
+            <div class="container text-muted">
+                <div class="row">
+                    <div class="col-md-6 text-md-start">
+                        &copy; @DateTime.Now.Year - Minha Aplicação ASP.NET
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        Nome: Rodrigo Cândido</a>
+                    </div>
+                </div>
+            </div>
         </footer>
     </div>
 
