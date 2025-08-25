@@ -268,7 +268,7 @@
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\Clientes\FI.AltClientes.js" />
-    <Content Include="Scripts\Clientes\FI.Clientes.js" />
+    <Content Include="Scripts\Clientes\NovoClientes.js" />
     <Content Include="Scripts\Clientes\ListaClientes.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

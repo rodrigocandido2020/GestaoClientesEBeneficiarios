@@ -26,7 +26,7 @@ namespace GestaoClientesEBeneficiarios.Web
                       "~/Scripts/jtable/localization/jquery.jtable.pt-BR.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/clientes").Include(
-                      "~/Scripts/Clientes/FI.Clientes.js"));
+                      "~/Scripts/Clientes/NovoClientes.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/ListaClientes").Include(
                       "~/Scripts/Clientes/ListaClientes.js"));
