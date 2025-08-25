@@ -56,14 +56,13 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
-
         public ActionResult Incluir()
         {
             return View();
         }
 
         [HttpPost]
-        public JsonResult Incluir(ClienteViewModel model)
+        public JsonResult Incluir(ClienteViewModel clienteViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -78,21 +77,9 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
 
             try
             {
-                var cliente = new Cliente
-                {
-                    CEP = model.CEP,
-                    Cidade = model.Cidade,
-                    Email = model.Email,
-                    Estado = model.Estado,
-                    Logradouro = model.Logradouro,
-                    Nacionalidade = model.Nacionalidade,
-                    Nome = model.Nome,
-                    Sobrenome = model.Sobrenome,
-                    Telefone = model.Telefone,
-                    CPF = model.CPF
-                };
+                var cliente = _mapper.Map<Cliente>(clienteViewModel);
 
-                model.Id = _boCliente.Incluir(cliente);
+                clienteViewModel.Id = _boCliente.Incluir(cliente);
 
                 return Json("Cadastro efetuado com sucesso");
             }
@@ -108,9 +95,8 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
             }
         }
 
-
         [HttpPost]
-        public JsonResult Alterar(ClienteViewModel model)
+        public JsonResult Alterar(ClienteViewModel clienteViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -125,20 +111,7 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
 
             try
             {
-                var cliente = new Cliente
-                {
-                    Id = model.Id,
-                    CEP = model.CEP,
-                    Cidade = model.Cidade,
-                    Email = model.Email,
-                    Estado = model.Estado,
-                    Logradouro = model.Logradouro,
-                    Nacionalidade = model.Nacionalidade,
-                    Nome = model.Nome,
-                    Sobrenome = model.Sobrenome,
-                    Telefone = model.Telefone,
-                    CPF = model.CPF
-                };
+                var cliente = _mapper.Map<Cliente>(clienteViewModel);
 
                 _boCliente.Alterar(cliente);
 
@@ -162,20 +135,7 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
         {
             var cliente = _boCliente.Consultar(id);
 
-            var model = cliente is null ? null : new ClienteViewModel
-            {
-                Id = cliente.Id,
-                CEP = cliente.CEP,
-                Cidade = cliente.Cidade,
-                Email = cliente.Email,
-                Estado = cliente.Estado,
-                Logradouro = cliente.Logradouro,
-                Nacionalidade = cliente.Nacionalidade,
-                Nome = cliente.Nome,
-                Sobrenome = cliente.Sobrenome,
-                Telefone = cliente.Telefone,
-                CPF = cliente.CPF,
-            };
+            var model = cliente is null ? null : _mapper.Map<ClienteViewModel>(cliente);
 
             return View(model);
         }

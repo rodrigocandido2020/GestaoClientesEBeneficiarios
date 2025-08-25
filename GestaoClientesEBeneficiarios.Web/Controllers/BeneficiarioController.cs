@@ -1,22 +1,25 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using AutoMapper;
 using GestaoClientesEBeneficiarios.Domain.BLL;
 using GestaoClientesEBeneficiarios.Domain.Entidades;
 using GestaoClientesEBeneficiarios.Web.ViewModels;
+using System;
+using System.Web.Mvc;
 
 namespace GestaoClientesEBeneficiarios.Web.Controllers
 {
     public class BeneficiarioController : Controller
     {
         private readonly BoBeneficiario _boBeneficiario;
+        private readonly IMapper _mapper;
 
-        public BeneficiarioController(BoBeneficiario boBeneficiario)
+        public BeneficiarioController(BoBeneficiario boBeneficiario, IMapper mapper)
         {
             _boBeneficiario = boBeneficiario;
+            _mapper = mapper;
         }
 
         [HttpPost]
-        public JsonResult Incluir(BeneficiarioModel model)
+        public JsonResult Incluir(BeneficiarioModel beneficiarioModel)
         {
             if (!ModelState.IsValid)
             {
@@ -24,16 +27,10 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
                 return Json("Dados inválidos");
             }
 
-            var beneficiario = new Beneficiario
-            {
-                Nome = model.Nome,
-                CPF = model.CPF,
-                IdCliente = model.IdCliente
-            };
-
             try
             {
-                model.Id = _boBeneficiario.Incluir(beneficiario);
+                var beneficiario = _mapper.Map<Beneficiario>(beneficiarioModel);
+                beneficiarioModel.Id = _boBeneficiario.Incluir(beneficiario);
                 return Json("Beneficiário incluído com sucesso!");
             }
             catch (InvalidOperationException ex)
@@ -57,8 +54,6 @@ namespace GestaoClientesEBeneficiarios.Web.Controllers
                 return Json(new { Result = "ERROR", Message = ex.Message });
             }
         }
-
-
 
         [HttpPost]
         public JsonResult Alterar(BeneficiarioModel model)

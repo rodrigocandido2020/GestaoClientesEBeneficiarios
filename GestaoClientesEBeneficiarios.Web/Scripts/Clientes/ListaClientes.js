@@ -31,7 +31,7 @@ $(document).ready(function () {
                     title: '',
                     sorting: false,
                     display: function (data) {
-                        return '<button onclick="window.location.href=\'/cliente/editar/' + data.record.Id + '\'" class="btn btn-primary btn-sm">Alterar</button>';
+                        return '<button onclick="window.location.href=\'/cliente/alterar/' + data.record.Id + '\'" class="btn btn-primary btn-sm">Alterar</button>';
                     }
                 },
                 Excluir: {

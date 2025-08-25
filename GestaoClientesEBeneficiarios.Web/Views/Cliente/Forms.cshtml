@@ -1,6 +1,6 @@
 ﻿<form id="formCadastro" method="post">
     <div class="row">
-        <input type="hidden" id="Id" name="Id" value="@Model?.Id" />
+        <input type="hidden" id="Id" name="Id" value="@(Model != null ? Model.Id : "")" />
         <div class="col-md-6">
             <div class="form-group">
                 <label for="Nome">Nome:</label>
@@ -111,7 +111,7 @@
 
             <div class="modal-body mb-3">
                 <div class="form-row mb-3">
-                    <input type="hidden" id="inputIdCliente" value="@Model?.Id" />
+                    <input type="hidden" id="inputIdCliente" value="@(Model != null ? Model.Id : "")" />
 
                     <input type="hidden" id="inputIdBeneficiario" />
 

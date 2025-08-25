@@ -36,6 +36,7 @@ namespace GestaoClientesEBeneficiarios.Web
         public AutoMapperProfile()
         {
             CreateMap<Cliente, ClienteViewModel>().ReverseMap();
+            CreateMap<Beneficiario, BeneficiarioModel>().ReverseMap();
         }
     }
 }

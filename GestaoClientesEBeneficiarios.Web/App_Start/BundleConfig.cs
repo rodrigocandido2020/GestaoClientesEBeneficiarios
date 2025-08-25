@@ -32,7 +32,7 @@ namespace GestaoClientesEBeneficiarios.Web
                       "~/Scripts/Clientes/ListaClientes.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/altClientes").Include(
-                      "~/Scripts/Clientes/FI.AltClientes.js"));
+                      "~/Scripts/Clientes/AlterarClientes.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
